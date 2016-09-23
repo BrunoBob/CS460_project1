@@ -1,5 +1,5 @@
 COMPIL = gcc
-FLAG = -Wall
+FLAG = -Wall -pthread
 NAME = server
 
 all: $(NAME)
