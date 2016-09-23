@@ -2,27 +2,27 @@
 
 void launchServer(){
   int serverSocket, clientSocket;                 // descriptor of sockets
-  struct sockaddr_in server_address; // for naming the server's listening socket
+  struct sockaddr_in serverAddress; // for naming the server's listening socket
 
   // create unnamed network socket for server to listen on
-  if ((server_socket = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
+  if ((serverSocket = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
     perror("Error creating socket");
     exit(ERROR_CREATING_SOCKET);
   }
 
   // fills socket information
-  server_address.sin_family      = AF_INET;           // accept IP addresses
-  server_address.sin_addr.s_addr = htonl(INADDR_ANY); // accept clients on any interface
-  server_address.sin_port        = htons(PORT);       // port to listen on
+  serverAddress.sin_family      = AF_INET;           // accept IP addresses
+  serverAddress.sin_addr.s_addr = htonl(INADDR_ANY); // accept clients on any interface
+  serverAddress.sin_port        = htons(PORT);       // port to listen on
 
   // binding socket to a port
-  if (bind(server_socket, (struct sockaddr *)&server_address, sizeof(server_address)) == -1) {
+  if (bind(serverSocket, (struct sockaddr *)&serverAddress, sizeof(serverAddress)) == -1) {
     perror("Error binding socket");
     exit(ERROR_BIDING_SOCKET);
   }
 
   // listening for client connection
-  if (listen(server_socket, NUM_CONNECTIONS) == -1) {
+  if (listen(serverSocket, NUM_CONNECTIONS) == -1) {
     perror("Error listening on socket");
     exit(ERROR_LISTENING_SOCKET);
   }
@@ -30,7 +30,7 @@ void launchServer(){
   // server loop
   while (1) {
     // accept connection to client
-    if ((client_socket = accept(server_socket, NULL, NULL)) == -1) {
+    if ((clientSocket = accept(serverSocket, NULL, NULL)) == -1) {
       perror("Error accepting client");
     } else {
       printf("\nAccepted client\n");
