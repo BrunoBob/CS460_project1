@@ -72,7 +72,7 @@ void* newClient(void* arg){
   char buffer;
 
   //Send welcome message to socket
-  if(send(client.socket, "Welcome client. Press 'q' to leave\n", 40, 0) < 0){
+  if(write(client.socket, "Welcome client. Press 'q' to leave\n", 35) < 0){
     perror("Error : not sendind data to socket");
     exit(ERROR_WRITING_SOCKET);
   }
@@ -85,7 +85,7 @@ void* newClient(void* arg){
     }
     printf("%c", buffer);
     //Send data back to socket
-    if(send(client.socket, &buffer, 1, 0) < 0){
+    if(write(client.socket, &buffer, 1) < 0){
       perror("Error : not sendind data to socket");
       exit(ERROR_WRITING_SOCKET);
     }
@@ -96,7 +96,7 @@ void* newClient(void* arg){
   }
 
   //Send disconnection message to socket
-  if(send(client.socket, "\nGoodbye\n", 9, 0) < 0){
+  if(write(client.socket, "\nGoodbye\n", 9) < 0){
     perror("Error : not sendind data to socket");
     exit(ERROR_WRITING_SOCKET);
   }
