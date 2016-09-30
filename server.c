@@ -89,6 +89,9 @@ void* newClient(void* arg){
     }
   }
 
+  //Wait until last message is sendind
+  sleep(1);
+
   //Close the socket
   if (close(client.socket) == -1) {
     perror("Error : closing socket");
