@@ -84,6 +84,12 @@ void* newClient(void* arg){
       exit(ERROR_WRITING_SOCKET);
     }
     if(buffer == 'q'){
+      //Send a end of line character to the client and leave the main loop
+      buffer = '\n';
+      if(write(client.socket, &buffer, 1) < 0){
+        perror("Error : not sendind data to socket");
+        exit(ERROR_WRITING_SOCKET);
+      }
       connected = 0;
       printf("\nClient number %d disconnected\n", client.number);
     }
