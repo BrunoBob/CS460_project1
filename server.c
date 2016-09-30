@@ -71,12 +71,6 @@ void* newClient(void* arg){
   int connected = 1;
   char buffer;
 
-  //Send welcome message to socket
-  if(write(client.socket, "Welcome client. Press 'q' to leave\n", 35) < 0){
-    perror("Error : not sendind data to socket");
-    exit(ERROR_WRITING_SOCKET);
-  }
-
   // Client exchange loop
   while(connected){
     if(recv(client.socket, &buffer, 1, 0) < 0){ //Read receving data from socket
@@ -93,12 +87,6 @@ void* newClient(void* arg){
       connected = 0;
       printf("\nClient number %d disconnected\n", client.number);
     }
-  }
-
-  //Send disconnection message to socket
-  if(write(client.socket, "\nGoodbye\n", 9) < 0){
-    perror("Error : not sendind data to socket");
-    exit(ERROR_WRITING_SOCKET);
   }
 
   //Close the socket
