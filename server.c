@@ -69,24 +69,24 @@ void* newClient(void* arg){
   pthread_mutex_unlock(client.connectionMutex); //Unlock the mutex so other client can connect
 
   int connected = 1;
-  char buffer;
+  char* buffer = (char*)malloc(2*sizeof(char));
 
   // Client exchange loop
   while(connected){
-    if(recv(client.socket, &buffer, 1, 0) < 0){ //Read receving data from socket
+    if(recv(client.socket, buffer, 2, 0) < 0){ //Read receving data from socket
       perror("Error : not receiving data from socket");
       exit(ERROR_READING_SOCKET);
     }
-    printf("%c", buffer);
+    printf("%c", *buffer);
     //Send data back to socket
-    if(write(client.socket, &buffer, 1) < 0){
+    if(write(client.socket, buffer, 1) < 0){
       perror("Error : not sendind data to socket");
       exit(ERROR_WRITING_SOCKET);
     }
-    if(buffer == 'q'){
+    if(*buffer == 'q'){
       //Send a end of line character to the client and leave the main loop
-      buffer = '\n';
-      if(write(client.socket, &buffer, 1) < 0){
+      *buffer = '\n';
+      if(write(client.socket, buffer, 1) < 0){
         perror("Error : not sendind data to socket");
         exit(ERROR_WRITING_SOCKET);
       }
